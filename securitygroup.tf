@@ -1,6 +1,6 @@
 resource "aws_security_group" "allow-ssh" {
   vpc_id      = "${data.aws_vpc.vpc.id}"
-  name        = "allow-ssh-stack-${STAGE}"
+  name        = "allow-ssh-stack-${var.STAGE}"
 
   egress {
     from_port   = 0
@@ -23,6 +23,6 @@ resource "aws_security_group" "allow-ssh" {
   }
 
   tags = {
-    Name = "allow-ssh-stack-${STAGE}"
+    Name = "allow-ssh-stack-${var.STAGE}"
   }
 }
