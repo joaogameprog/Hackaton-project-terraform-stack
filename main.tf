@@ -34,14 +34,14 @@ data "aws_subnet" "public" {
   id = "${each.value}"
 }
 
-resource "random_shuffle" "random_subnet" {
+resource "random_shuffle" "random_subnet-${var.STAGE}" {
   input        = [for s in data.aws_subnet.public : s.id]
   result_count = 1
 }
 
 
 
-resource "aws_elb" "web" {
+resource "aws_elb" "web-${var.STAGE}" {
   name = "hackton-elb"
 
   subnets         = data.aws_subnet_ids.all.ids
@@ -66,7 +66,7 @@ resource "aws_elb" "web" {
   instances = aws_instance.web.*.id
 }
 
-resource "aws_instance" "web" {
+resource "aws_instance" "web-${var.STAGE}" {
   instance_type = "t2.micro"
   ami           = "${lookup(var.aws_amis, var.aws_region)}"
 
