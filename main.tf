@@ -34,14 +34,14 @@ data "aws_subnet" "public" {
   id = "${each.value}"
 }
 
-resource "random_shuffle" "random_subnet-${var.STAGE}" {
+resource "random_shuffle" "random_subnet-$${var.STAGE}" {
   input        = [for s in data.aws_subnet.public : s.id]
   result_count = 1
 }
 
 
 
-resource "aws_elb" "web-${var.STAGE}" {
+resource "aws_elb" "web-$${var.STAGE}" {
   name = "hackton-elb"
 
   subnets         = data.aws_subnet_ids.all.ids
@@ -66,7 +66,7 @@ resource "aws_elb" "web-${var.STAGE}" {
   instances = aws_instance.web.*.id
 }
 
-resource "aws_instance" "web-${var.STAGE}" {
+resource "aws_instance" "web-$${var.STAGE}" {
   instance_type = "t2.micro"
   ami           = "${lookup(var.aws_amis, var.aws_region)}"
 
@@ -75,7 +75,7 @@ resource "aws_instance" "web-${var.STAGE}" {
   subnet_id              = "${random_shuffle.random_subnet.result[0]}"
   vpc_security_group_ids = ["${aws_security_group.allow-ssh.id}"]
   key_name               = "${var.KEY_NAME}"
-  iam_instance_profile   = "${aws_iam_instance_profile.ecr_readOnly_profile.name}-${var.STAGE}"
+  iam_instance_profile   = "${aws_iam_instance_profile.ecr_readOnly_profile.name}"
 
   provisioner "file" {
     content      = "${data.template_file.script.rendered}"

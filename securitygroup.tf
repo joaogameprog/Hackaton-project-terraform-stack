@@ -1,4 +1,4 @@
-resource "aws_security_group" "allow-ssh-${var.STAGE}" {
+resource "aws_security_group" "allow-ssh-$${var.STAGE}" {
   vpc_id      = "${data.aws_vpc.vpc.id}"
   name        = "allow-ssh-stack"
 
