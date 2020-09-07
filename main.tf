@@ -75,7 +75,7 @@ resource "aws_instance" "web" {
   subnet_id              = "${random_shuffle.random_subnet.result[0]}"
   vpc_security_group_ids = ["${aws_security_group.allow-ssh.id}"]
   key_name               = "${var.KEY_NAME}"
-  iam_instance_profile   = "${aws_iam_instance_profile.ecr_readOnly_profile.name}"
+  iam_instance_profile   = "${aws_iam_instance_profile.ecr_readOnly_profile.name}-${var.STAGE}"
 
   provisioner "file" {
     content      = "${data.template_file.script.rendered}"
